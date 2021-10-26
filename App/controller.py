@@ -24,12 +24,26 @@ import config as cf
 import model
 import csv
 
+FILE = "/Data/UFOS/UFOS-utf8-large.csv"
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
 # Inicialización del Catálogo de libros
+
+# Initializes the catalog
+def init_catalog():
+    catalog = model.init_catalog()
+    return catalog
+
+
+# Adds the data to the catalog
+def load_catalog(catalog):
+    ufo_file = cf.file_dir + FILE
+    data = csv.DictReader(open(ufo_file, encoding='utf-8'))
+    for ufo in data:
+        model.add_ufo(catalog, ufo)
 
 # Funciones para la carga de datos
 

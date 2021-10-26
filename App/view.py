@@ -21,9 +21,9 @@
  """
 
 import config as cf
-import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import orderedmap as tree
 assert cf
 
 
@@ -35,24 +35,48 @@ operación solicitada
 """
 
 def printMenu():
-    print("Bienvenido")
-    print("1- Cargar información en el catálogo")
+    print("Bienvenido a la App51.")
+    print('Porfavor tenga cuidado.')
+    print("Objetos voladores no identificados han siido vistos en este programa.")
+    print("Queda advertido.")
+    print("0- Buscar UFOs")
     print("2- ")
+    print()
 
 catalog = None
+
+
+# Initializes the catalog and gets the data
+def load():
+    catalog = controller.init_catalog()
+    controller.load_catalog(catalog)
+    return catalog
+
 
 """
 Menu principal
 """
-while True:
-    printMenu()
-    inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
 
-    elif int(inputs[0]) == 2:
-        pass
+if __name__ == "__main__":
+    running = True
+    while running:
+        printMenu()
+        inputs = input('Seleccione una opción para continuar\n')
+        if int(inputs[0]) == 0:
+            print("Buscando UFOs")
+            catalog = load()
+            size = tree.size(catalog)
+            print(f"Se han encontrado {size} UFOs en su area.")
+            print("Se le recomienda tener quidado.")
+            print()
 
-    else:
-        sys.exit(0)
-sys.exit(0)
+        elif int(inputs[0]) == 2:
+            pass
+
+        else:
+            print("Muchas gracias por usar la App51.")
+            print("La informacion en esta App es confidencial")
+            print("No comparta la informacion que se encuentra en la App con nadie")
+            print("Sabemos donde vive...")
+            print()
+            running = False

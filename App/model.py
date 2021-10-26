@@ -28,6 +28,7 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.ADT import orderedmap as tree
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
@@ -41,10 +42,34 @@ los mismos.
 
 # Funciones para agregar informacion al catalogo
 
+# Set catalog as a red black tree
+def init_catalog():
+    catalog = tree.newMap(omaptype='RBT', comparefunction=cmp_UFO)
+    return catalog
+
+
+# Adds a UFO site to the tree
+def add_ufo(catalog, ufo):
+    tree.put(catalog, ufo, ufo['datetime'])
+
 # Funciones para creacion de datos
 
 # Funciones de consulta
 
-# Funciones utilizadas para comparar elementos dentro de una lista
+# Funciones de comparacion
+
+    #compares 2 ufo sites by the latitude and longitude of the sites
+def cmp_UFO(ufo1, ufo2):
+    res = 1
+
+    datetime1 = ufo1['datetime']
+    datetime2 = ufo2['datetime']
+
+    if datetime1 < datetime2:
+        res = -1
+    elif datetime1 == datetime2:
+        res = 0
+    
+    return res
 
 # Funciones de ordenamiento
