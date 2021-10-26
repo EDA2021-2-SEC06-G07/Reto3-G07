@@ -27,6 +27,25 @@ from DISClib.ADT import orderedmap as tree
 assert cf
 
 
+UFO_ART1 = """                 _,--=--._
+               ,'    _    `.
+              -    _(_)_o   -
+         ____'    /_  _/]    `____
+  -=====::(+):::::::::::::::::(+)::=====-
+           (+).""""""""""""",(+)
+               .           ,
+                 `  -=-  '"""
+UFO_ART2 = """
+                 _                ( Muchas gracias por usar la App51. )
+                /\\\\               ( La informacion en esta App es confidencial.)
+                \ \\\\  \__/ \__/  / ( No comparta la informacion que se )
+                 \ \\\\ (oo) (oo) /    (encuentra en la App con nadie.)
+                  \_\\\\/~~\_/~~\_
+                 _.-~===========~-._
+                (___/_______________)
+                   /  \_______/
+       ( Sabemos donde vive... )"""
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -36,6 +55,7 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido a la App51.")
+    print(UFO_ART1)
     print('Porfavor tenga cuidado.')
     print("Objetos voladores no identificados han siido vistos en este programa.")
     print("Queda advertido.")
@@ -74,9 +94,6 @@ if __name__ == "__main__":
             pass
 
         else:
-            print("Muchas gracias por usar la App51.")
-            print("La informacion en esta App es confidencial")
-            print("No comparta la informacion que se encuentra en la App con nadie")
-            print("Sabemos donde vive...")
+            print(UFO_ART2)
             print()
             running = False
