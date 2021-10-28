@@ -50,3 +50,7 @@ def load_catalog(catalog):
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+
+# Requerimientos
+def req1(catalog, city):
+    return model.req1(catalog, city)

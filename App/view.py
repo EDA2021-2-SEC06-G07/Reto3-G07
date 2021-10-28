@@ -20,10 +20,12 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from typing import Collection
 import config as cf
 import controller
 from DISClib.ADT import list as lt
 from DISClib.ADT import orderedmap as tree
+from DISClib.DataStructures import linkedlistiterator as iter
 assert cf
 
 
@@ -60,7 +62,7 @@ def printMenu():
     print("Objetos voladores no identificados han siido vistos en este programa.")
     print("Queda advertido.")
     print("0- Buscar UFOs")
-    print("2- ")
+    print("1- Mirar UFOs por ciudad")
     print()
 
 catalog = None
@@ -72,6 +74,48 @@ def load():
     controller.load_catalog(catalog)
     return catalog
 
+
+#req 1
+def req1():
+    print("UFOs por ciudad")
+    city = input("Porfavor dinos cual ciudad quieres mirar.\n")
+
+    data = controller.req1(catalog, city)
+    
+    print('Primeros 3 avistamientos:')
+    for i in range(0, 3):
+        print(data['city'].keys())
+        ufo = lt.getElement(data['city']['value'], i)
+        print(f'avistamiento {i + 1}:')
+        datetime = ufo['datetime']
+        print(f'\tfecha y hora: {datetime}')
+        country = ufo['country']
+        print(f'\tpais: {country}, city: {city}')
+        duration = ufo['duration (hours/min)']
+        print(f'\tduraciom: {duration}')
+        shape = ufo['shape']
+        print(f'\tshape: {shape}')
+
+    print('ultimos avistamientos:')
+    for i in range(lt.size(data['city']['value']) - 3, lt.size(data['city']['value'])):
+        ufo = lt.getElement(data['city']['value'], i)
+        print(f'avistamiento {i + 1}:')
+        datetime = ufo['datetime']
+        print(f'\tfecha y hora: {datetime}')
+        country = ufo['country']
+        print(f'\tpais: {country}, city: {city}')
+        duration = ufo['duration (hours/min)']
+        print(f'\tduraciom: {duration}')
+        shape = ufo['shape']
+        print(f'\tshape: {shape}')
+
+    print('We recomend you to check this other locations')
+    for i in range(1, 7):
+        locations = tree.valueSet(data['full_data'])
+        location_list = lt.getElement(locations, i)
+        location = location_list['first']['info']['city']
+        size = lt.size(location_list)
+        print(f'\t{location} tiene {size} avistamientos')
 
 """
 Menu principal
@@ -90,8 +134,8 @@ if __name__ == "__main__":
             print("Se le recomienda tener quidado.")
             print()
 
-        elif int(inputs[0]) == 2:
-            pass
+        elif int(inputs[0]) == 1:
+            req1()
 
         else:
             print(UFO_ART2)

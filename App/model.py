@@ -31,6 +31,7 @@ from DISClib.ADT import map as mp
 from DISClib.ADT import orderedmap as tree
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.DataStructures import linkedlistiterator as iter
 assert cf
 
 """
@@ -50,7 +51,7 @@ def init_catalog():
 
 # Adds a UFO site to the tree
 def add_ufo(catalog, ufo):
-    tree.put(catalog, ufo, ufo['datetime'])
+    tree.put(catalog, ufo['datetime'], ufo)
 
 # Funciones para creacion de datos
 
@@ -59,11 +60,8 @@ def add_ufo(catalog, ufo):
 # Funciones de comparacion
 
     #compares 2 ufo sites by the latitude and longitude of the sites
-def cmp_UFO(ufo1, ufo2):
+def cmp_UFO(datetime1, datetime2):
     res = 1
-
-    datetime1 = ufo1['datetime']
-    datetime2 = ufo2['datetime']
 
     if datetime1 < datetime2:
         res = -1
@@ -72,4 +70,48 @@ def cmp_UFO(ufo1, ufo2):
     
     return res
 
+
+def cmp_lists(size1, size2):
+    res = -1;
+
+    if size1 < size2:
+        res = 1;
+    elif size1 == size2:
+        res = 0;
+
+    return res;
+
+
 # Funciones de ordenamiento
+
+
+#Requerimientos
+def req1(catalog, city):
+    temp_map = mp.newMap();
+    ufo_data = tree.valueSet(catalog);
+
+    i = iter.newIterator(ufo_data);
+    while(iter.hasNext(i)):
+        element = iter.next(i);
+        city_element = element['city']
+
+        if(mp.contains(temp_map, city_element)):
+            lt.addLast(mp.get(temp_map, city_element)['value'], element)
+        else:
+            mp.put(temp_map, city_element, lt.newList())
+            lt.addLast(mp.get(temp_map, city_element)['value'], element)
+
+    ufo_data = tree.newMap(omaptype='RBT', comparefunction=cmp_lists)
+    city_lists = mp.valueSet(temp_map);
+
+    i  = iter.newIterator(city_lists)
+    while(iter.hasNext(i)):
+        list = iter.next(i)
+        tree.put(ufo_data, lt.size(list), list);
+
+    city_list = mp.get(temp_map, city)
+    
+    return {'city': city_list, 'full_data': ufo_data}
+
+    
+
