@@ -71,7 +71,7 @@ catalog = None
 # Initializes the catalog and gets the data
 def load():
     catalog = controller.init_catalog()
-    controller.load_catalog(catalog['DATE'])
+    controller.load_catalog(catalog)
     return catalog
 
 

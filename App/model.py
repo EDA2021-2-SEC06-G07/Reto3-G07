@@ -53,7 +53,7 @@ def init_catalog():
 
 # Adds a UFO site to the tree
 def add_ufo(catalog, ufo):
-    tree.put(catalog, ufo['datetime'], ufo)
+    tree.put(catalog['DATE'], ufo['datetime'], ufo)
 
 
 # Funciones para creacion de datos
