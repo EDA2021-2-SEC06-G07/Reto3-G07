@@ -24,7 +24,7 @@ import config as cf
 import model
 import csv
 
-FILE = "/Data/UFOS/UFOS-utf8-large.csv"
+FILE = "/Data/UFOS/UFOS-utf8-small.csv"
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -44,6 +44,7 @@ def load_catalog(catalog):
     data = csv.DictReader(open(ufo_file, encoding='utf-8'))
     for ufo in data:
         model.add_ufo(catalog, ufo)
+        model.add_hour(catalog,ufo)
 
 # Funciones para la carga de datos
 
@@ -54,3 +55,5 @@ def load_catalog(catalog):
 # Requerimientos
 def req1(catalog, city):
     return model.req1(catalog, city)
+def req3(catalog,hora_min,hora_max):
+    return model.req_3(catalog,hora_min,hora_max)

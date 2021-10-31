@@ -25,6 +25,7 @@
  """
 
 
+from posixpath import split
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -32,6 +33,7 @@ from DISClib.ADT import orderedmap as tree
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.DataStructures import linkedlistiterator as iter
+import datetime 
 assert cf
 
 """
@@ -56,10 +58,34 @@ def add_ufo(catalog, ufo):
     tree.put(catalog['DATE'], ufo['datetime'], ufo)
 
 
+def add_hour(catalog,ufo):
+    date=ufo['datetime']
+    date1=date.split(" ")
+    date2=date1[1].split(':')
+    ufodate=datetime.time(int(date2[0]),int(date2[1]))
+    entry=tree.get(catalog['HOUR'],ufodate)
+    if entry is None:
+        tree.put(catalog['HOUR'], ufodate, lt.newList())
+        lt.addLast(tree.get(catalog['HOUR'],ufodate)['value'],ufo)
+    else:
+        lt.addLast(tree.get(catalog['HOUR'],ufodate)['value'],ufo)
+    return catalog
+
+
 # Funciones para creacion de datos
 
 # Funciones de consulta
-
+def req_3(catalog,hora_min,hora_max):
+    min=hora_min.split(':')
+    hora_min=datetime.time(int(min[0]), int(min[1]))
+    max=hora_max.split(':')
+    hora_max=datetime.time(int(max[0]),int(max[1]))
+    lst=tree.values(catalog['HOUR'],hora_min,hora_max)
+    contador= 0 
+    for i in lt.iterator(lst):
+        contador += lt.size(i)
+        
+    return contador
 # Funciones de comparacion
 
     #compares 2 ufo sites by the latitude and longitude of the sites
@@ -83,7 +109,13 @@ def cmp_lists(size1, size2):
         res = 0
 
     return res
-
+def cmp_horas(hour1,hour2):
+    res = 1
+    if hour1<hour2:
+        res=-1
+    elif hour1>hour2:
+        res=0
+    return res
 
 # Funciones de ordenamiento
 

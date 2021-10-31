@@ -63,6 +63,7 @@ def printMenu():
     print("Queda advertido.")
     print("0- Buscar UFOs")
     print("1- Mirar UFOs por ciudad")
+    print('2- Contar avistamientos por Hora/Minutos del día')
     print()
 
 catalog = None
@@ -117,6 +118,14 @@ def req1():
         size = lt.size(location_list)
         print(f'\t{location} tiene {size} avistamientos')
 
+def req_3():
+    print('ingrese las horas en formato HH:MM')
+    
+    hora_min=input('ingresa hora minima: ')
+    hora_max=input('ingresa hora maxima: ')
+    lolo=controller.req3(catalog,hora_min,hora_max)
+    print(lolo)
+
 """
 Menu principal
 """
@@ -132,11 +141,14 @@ if __name__ == "__main__":
             size = tree.size(catalog['DATE'])
             print(f"Se han encontrado {size} UFOs en su area.")
             print("Se le recomienda tener quidado.")
+           
             print()
 
         elif int(inputs[0]) == 1:
             req1()
 
+        elif int(inputs[0]) == 3:
+            req_3()
         else:
             print(UFO_ART2)
             print()
