@@ -71,7 +71,7 @@ catalog = None
 # Initializes the catalog and gets the data
 def load():
     catalog = controller.init_catalog()
-    controller.load_catalog(catalog)
+    controller.load_catalog(catalog['DATE'])
     return catalog
 
 
@@ -80,7 +80,7 @@ def req1():
     print("UFOs por ciudad")
     city = input("Porfavor dinos cual ciudad quieres mirar.\n")
 
-    data = controller.req1(catalog, city)
+    data = controller.req1(catalog['DATE'], city)
     
     print('Primeros 3 avistamientos:')
     for i in range(0, 3):
@@ -129,7 +129,7 @@ if __name__ == "__main__":
         if int(inputs[0]) == 0:
             print("Buscando UFOs")
             catalog = load()
-            size = tree.size(catalog)
+            size = tree.size(catalog['DATE'])
             print(f"Se han encontrado {size} UFOs en su area.")
             print("Se le recomienda tener quidado.")
             print()

@@ -45,13 +45,16 @@ los mismos.
 
 # Set catalog as a red black tree
 def init_catalog():
-    catalog = tree.newMap(omaptype='RBT', comparefunction=cmp_UFO)
+    catalog={'DATE': None, 'HOUR': None}
+    catalog['DATE'] = tree.newMap(omaptype='RBT', comparefunction=cmp_UFO)
+    catalog['HOUR']= tree.newMap(omaptype='BST')
     return catalog
 
 
 # Adds a UFO site to the tree
 def add_ufo(catalog, ufo):
     tree.put(catalog, ufo['datetime'], ufo)
+
 
 # Funciones para creacion de datos
 
@@ -72,14 +75,14 @@ def cmp_UFO(datetime1, datetime2):
 
 
 def cmp_lists(size1, size2):
-    res = -1;
+    res = -1
 
     if size1 < size2:
-        res = 1;
+        res = 1
     elif size1 == size2:
-        res = 0;
+        res = 0
 
-    return res;
+    return res
 
 
 # Funciones de ordenamiento
@@ -87,12 +90,12 @@ def cmp_lists(size1, size2):
 
 #Requerimientos
 def req1(catalog, city):
-    temp_map = mp.newMap();
-    ufo_data = tree.valueSet(catalog);
+    temp_map = mp.newMap()
+    ufo_data = tree.valueSet(catalog)
 
-    i = iter.newIterator(ufo_data);
+    i = iter.newIterator(ufo_data)
     while(iter.hasNext(i)):
-        element = iter.next(i);
+        element = iter.next(i)
         city_element = element['city']
 
         if(mp.contains(temp_map, city_element)):
@@ -102,12 +105,12 @@ def req1(catalog, city):
             lt.addLast(mp.get(temp_map, city_element)['value'], element)
 
     ufo_data = tree.newMap(omaptype='RBT', comparefunction=cmp_lists)
-    city_lists = mp.valueSet(temp_map);
+    city_lists = mp.valueSet(temp_map)
 
     i  = iter.newIterator(city_lists)
     while(iter.hasNext(i)):
         list = iter.next(i)
-        tree.put(ufo_data, lt.size(list), list);
+        tree.put(ufo_data, lt.size(list), list)
 
     city_list = mp.get(temp_map, city)
     
