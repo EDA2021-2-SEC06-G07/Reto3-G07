@@ -45,6 +45,7 @@ def load_catalog(catalog):
     for ufo in data:
         model.add_ufo(catalog, ufo)
         model.add_hour(catalog,ufo)
+        model.add_dates(catalog,ufo)
 
 # Funciones para la carga de datos
 
@@ -57,3 +58,5 @@ def req1(catalog, city):
     return model.req1(catalog, city)
 def req3(catalog,hora_min,hora_max):
     return model.req_3(catalog,hora_min,hora_max)
+def req4(catalog,date_min,date_max):
+    return model.req_4(catalog,date_min,date_max)

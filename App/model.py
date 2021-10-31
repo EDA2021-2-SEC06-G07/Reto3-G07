@@ -47,9 +47,10 @@ los mismos.
 
 # Set catalog as a red black tree
 def init_catalog():
-    catalog={'DATE': None, 'HOUR': None}
+    catalog={'DATE': None, 'HOUR': None, 'DATES': None}
     catalog['DATE'] = tree.newMap(omaptype='RBT', comparefunction=cmp_UFO)
     catalog['HOUR']= tree.newMap(omaptype='BST')
+    catalog['DATES']= tree.newMap(omaptype='BST')
     return catalog
 
 
@@ -71,7 +72,18 @@ def add_hour(catalog,ufo):
         lt.addLast(tree.get(catalog['HOUR'],ufodate)['value'],ufo)
     return catalog
 
-
+def add_dates(catalog,ufo):
+    date=ufo['datetime']
+    date1=date.split(" ")
+    date2=date1[0].split('-')
+    ufodate=datetime.date(int(date2[0]),int(date2[1]),int(date2[2]))
+    entry=tree.get(catalog['DATES'],ufodate)
+    if entry is None:
+        tree.put(catalog['DATES'], ufodate, lt.newList())
+        lt.addLast(tree.get(catalog['DATES'],ufodate)['value'],ufo)
+    else:
+        lt.addLast(tree.get(catalog['DATES'],ufodate)['value'],ufo)
+    return catalog
 # Funciones para creacion de datos
 
 # Funciones de consulta
@@ -81,6 +93,17 @@ def req_3(catalog,hora_min,hora_max):
     max=hora_max.split(':')
     hora_max=datetime.time(int(max[0]),int(max[1]))
     lst=tree.values(catalog['HOUR'],hora_min,hora_max)
+    contador= 0 
+    for i in lt.iterator(lst):
+        contador += lt.size(i)
+    return contador
+    
+def req_4(catalog,date_min,date_max):
+    min=date_min.split('-')
+    fecha_min=datetime.date(int(min[0]), int(min[1]),int(min[2]))
+    max=date_max.split('-')
+    fecha_max=datetime.date(int(max[0]),int(max[1]),int(max[2]))
+    lst=tree.values(catalog['DATES'],fecha_min,fecha_max)
     contador= 0 
     for i in lt.iterator(lst):
         contador += lt.size(i)

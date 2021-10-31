@@ -63,8 +63,9 @@ def printMenu():
     print("Queda advertido.")
     print("0- Buscar UFOs")
     print("1- Mirar UFOs por ciudad")
-    print('2- Contar avistamientos por Hora/Minutos del día')
-    print()
+    print('2- Contar los avistamientos por duración')
+    print('3-Contar avistamientos por Hora/Minutos del día')
+    print('4-Contar los avistamientos en un rango de fechas')
 
 catalog = None
 
@@ -125,7 +126,12 @@ def req_3():
     hora_max=input('ingresa hora maxima: ')
     lolo=controller.req3(catalog,hora_min,hora_max)
     print(lolo)
-
+def req_4():
+    print('Ingrese las fechas en formato AA-MM_DD')
+    date_min=input('Ingrese la fecha minima: ')
+    date_max=input('Ingrese la fecha maxima: ')
+    baba= controller.req4(catalog,date_min,date_max)
+    print(baba)
 """
 Menu principal
 """
@@ -149,6 +155,8 @@ if __name__ == "__main__":
 
         elif int(inputs[0]) == 3:
             req_3()
+        elif int(inputs[0]) == 4:
+            req_4()
         else:
             print(UFO_ART2)
             print()
