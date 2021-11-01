@@ -32,6 +32,7 @@ from DISClib.ADT import map as mp
 from DISClib.ADT import orderedmap as tree
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.DataStructures import linkedlistiterator as iter
 import datetime 
 assert cf
@@ -49,7 +50,7 @@ los mismos.
 def init_catalog():
     catalog={'DATE': None, 'HOUR': None, 'DATES': None}
     catalog['DATE'] = tree.newMap(omaptype='RBT', comparefunction=cmp_UFO)
-    catalog['HOUR']= tree.newMap(omaptype='BST')
+    catalog['HOUR']= tree.newMap(omaptype='BST', comparefunction=cmp_UFO)
     catalog['DATES']= tree.newMap(omaptype='BST')
     return catalog
 
@@ -66,7 +67,7 @@ def add_hour(catalog,ufo):
     ufodate=datetime.time(int(date2[0]),int(date2[1]))
     entry=tree.get(catalog['HOUR'],ufodate)
     if entry is None:
-        tree.put(catalog['HOUR'], ufodate, lt.newList())
+        tree.put(catalog['HOUR'], ufodate, lt.newList(datastructure='ARRAY_LIST'))
         lt.addLast(tree.get(catalog['HOUR'],ufodate)['value'],ufo)
     else:
         lt.addLast(tree.get(catalog['HOUR'],ufodate)['value'],ufo)
@@ -79,7 +80,7 @@ def add_dates(catalog,ufo):
     ufodate=datetime.date(int(date2[0]),int(date2[1]),int(date2[2]))
     entry=tree.get(catalog['DATES'],ufodate)
     if entry is None:
-        tree.put(catalog['DATES'], ufodate, lt.newList())
+        tree.put(catalog['DATES'], ufodate, lt.newList(datastructure='ARRAY_LIST'))
         lt.addLast(tree.get(catalog['DATES'],ufodate)['value'],ufo)
     else:
         lt.addLast(tree.get(catalog['DATES'],ufodate)['value'],ufo)
@@ -88,6 +89,9 @@ def add_dates(catalog,ufo):
 
 # Funciones de consulta
 def req_3(catalog,hora_min,hora_max):
+    antiguo = tree.maxKey(catalog['HOUR'])
+    tamaño_antiguo= tree.values(catalog['HOUR'],antiguo, antiguo)
+    respuesta= lt.newList(datastructure='ARRAY_LIST')
     min=hora_min.split(':')
     hora_min=datetime.time(int(min[0]), int(min[1]))
     max=hora_max.split(':')
@@ -96,9 +100,18 @@ def req_3(catalog,hora_min,hora_max):
     contador= 0 
     for i in lt.iterator(lst):
         contador += lt.size(i)
-    return contador
+        for j in i['elements']:
+            lt.addLast(respuesta,j)
+    print('')
+    print('Se encontraron '+ str(contador)+ ' avistamientos')
+    print('')
+    print('Mas tarde: '+ str(antiguo) + ' con' + str(lt.size(tamaño_antiguo)))
+    return respuesta['elements']
     
 def req_4(catalog,date_min,date_max):
+    respuesta= lt.newList(datastructure='ARRAY_LIST')
+    antiguo = tree.minKey(catalog['DATES'])
+    tamaño_antiguo= tree.values(catalog['DATES'],antiguo, antiguo)
     min=date_min.split('-')
     fecha_min=datetime.date(int(min[0]), int(min[1]),int(min[2]))
     max=date_max.split('-')
@@ -107,8 +120,14 @@ def req_4(catalog,date_min,date_max):
     contador= 0 
     for i in lt.iterator(lst):
         contador += lt.size(i)
-        
-    return contador
+        print(i)
+        for j in i['elements']:
+            lt.addLast(respuesta,j)
+    print('')
+    print('Se encontraron '+ str(contador) + ' avistamientos')
+    print('El avistamiento mas antiguo fue '+ str(antiguo)+ ' con ' + str(lt.size(tamaño_antiguo)))
+    print(respuesta)
+    return respuesta['elements']
 # Funciones de comparacion
 
     #compares 2 ufo sites by the latitude and longitude of the sites
@@ -139,7 +158,14 @@ def cmp_horas(hour1,hour2):
     elif hour1>hour2:
         res=0
     return res
-
+def cmp_horass(hour1,hour2):
+    hour1= hour1
+    res = 1
+    if hour1<hour2:
+        res=-1
+    elif hour1>hour2:
+        res=0
+    return res
 # Funciones de ordenamiento
 
 
