@@ -54,6 +54,22 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
+def print_ufo(ufo):
+    date_time = ufo['datetime']
+    print(f'date and time: {date_time}')
+
+    city = ufo['city']
+    print(f'    city: {city}')
+
+    country = ufo['country']
+    print(f'    country: {country}')
+
+    duration = ufo['duration (seconds)']
+    print(f'    duration: {duration}')
+
+    shape = ufo['shape']
+    print(f'    shape: {shape}')
+
 
 def printMenu():
     print("Bienvenido a la App51.")
@@ -119,6 +135,23 @@ def req1():
         size = lt.size(location_list)
         print(f'\t{location} tiene {size} avistamientos')
 
+
+def req2():
+    init_sec = int(input("Place initial duration in seconds:"))
+    final_sec = int(input('Place the final duration in seconds:'))
+
+    res = controller.req2(catalog['DATE'], init_sec, final_sec)
+    info = tree.valueSet(res)
+    size = tree.size(res)
+    print(f'hubo {size} avistammientos')
+
+    for i in range(0, 3):
+        print_ufo(lt.getElement(info, i))
+
+    for i in range(lt.size(info) - 3, lt.size(info)):
+        print_ufo(lt.getElement(info, i))
+
+
 def req_3():
     print('ingrese las horas en formato HH:MM')
     
@@ -144,6 +177,8 @@ def req_3():
         print('country: ' + ufos[i]['country'])
         print('shape: '+ ufos[i]['shape'])
         print('duration: '+ ufos[i]['duration (seconds)'])
+
+
 def req_4():
     print('Ingrese las fechas en formato AA-MM_DD')
     date_min=input('Ingrese la fecha minima: ')
@@ -188,7 +223,8 @@ if __name__ == "__main__":
 
         elif int(inputs[0]) == 1:
             req1()
-
+        elif int(inputs[0]) == 2:
+            req2()
         elif int(inputs[0]) == 3:
             req_3()
         elif int(inputs[0]) == 4:
