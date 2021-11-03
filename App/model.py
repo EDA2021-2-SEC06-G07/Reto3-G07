@@ -73,6 +73,7 @@ def add_hour(catalog,ufo):
         lt.addLast(tree.get(catalog['HOUR'],ufodate)['value'],ufo)
     return catalog
 
+
 def add_dates(catalog,ufo):
     date=ufo['datetime']
     date1=date.split(" ")
@@ -150,6 +151,8 @@ def cmp_lists(size1, size2):
         res = 0
 
     return res
+
+
 def cmp_horas(hour1,hour2):
     res = 1
     if hour1<hour2:
@@ -157,6 +160,8 @@ def cmp_horas(hour1,hour2):
     elif hour1>hour2:
         res=0
     return res
+
+
 def cmp_horass(hour1,hour2):
     hour1= hour1
     res = 1
@@ -164,6 +169,16 @@ def cmp_horass(hour1,hour2):
         res=-1
     elif hour1>hour2:
         res=0
+    return res
+
+
+def cmp_seconds(sec1, sec2):
+    res = 1
+    if sec1 < sec2:
+        res = -1
+    elif sec1 == sec2:
+        res = 0 
+    
     return res
 # Funciones de ordenamiento
 
@@ -197,4 +212,16 @@ def req1(catalog, city):
     return {'city': city_list, 'full_data': ufo_data}
 
     
+def req2(catalog, init_sec, final_sec):
+    sites = tree.newMap(omaptype='rbt', comparefunction=cmp_seconds)
+    ufos = tree.valueSet(catalog)
+    i = iter.newIterator(ufos)
+    while iter.hasNext(i):
+        ufo = iter.next(i)
+        duration = int(ufo['duration (seconds)'].split('.')[0])
+        if init_sec <= duration and duration <= final_sec:
+            tree.put(sites, ufo['duration (seconds)'], ufo)
+
+    return sites
+
 
