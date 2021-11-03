@@ -48,10 +48,11 @@ los mismos.
 
 # Set catalog as a red black tree
 def init_catalog():
-    catalog={'DATE': None, 'HOUR': None, 'DATES': None}
+    catalog={'DATE': None, 'HOUR': None, 'DATES': None, 'ZONE': None}
     catalog['DATE'] = tree.newMap(omaptype='RBT', comparefunction=cmp_UFO)
     catalog['HOUR']= tree.newMap(omaptype='BST', comparefunction=cmp_UFO)
     catalog['DATES']= tree.newMap(omaptype='BST')
+    catalog['ZONE']= tree.newMap(omaptype='BST')
     return catalog
 
 
@@ -86,6 +87,17 @@ def add_dates(catalog,ufo):
     else:
         lt.addLast(tree.get(catalog['DATES'],ufodate)['value'],ufo)
     return catalog
+
+def add_coordenadas(catalog,ufo):
+    zone=float(ufo['longitude'])
+    entry=tree.get(catalog['ZONE'],zone)
+    if entry is None:
+        tree.put(catalog['ZONE'], zone, lt.newList(datastructure='ARRAY_LIST'))
+        lt.addLast(tree.get(catalog['ZONE'],zone)['value'],ufo)
+    else:
+        lt.addLast(tree.get(catalog['ZONE'],zone)['value'],ufo)
+    return catalog
+
 # Funciones para creacion de datos
 
 # Funciones de consulta
@@ -127,6 +139,21 @@ def req_4(catalog,date_min,date_max):
     print('Se encontraron '+ str(contador) + ' avistamientos')
     print('El avistamiento mas antiguo fue '+ str(antiguo)+ ' con ' + str(lt.size(tamaño_antiguo)))
     return respuesta
+
+def req_5(catalog,long_min,long_max,lat_min,lat_max):
+    respuesta= lt.newList(datastructure='ARRAY_LIST')
+    lst=tree.values(catalog['ZONE'],long_min,long_max)
+    contador= 0 
+    for i in lt.iterator(lst):
+        for j in lt.iterator(i):
+            if float(j['latitude']) > lat_min and float(j['latitude']) < lat_max:
+                lt.addLast(respuesta,j)
+                contador += 1
+    respuesta= ms.sort(respuesta,cmp_dates) 
+    print('Los avistamientos son '+ str(contador))  
+    return respuesta
+
+
 # Funciones de comparacion
 
     #compares 2 ufo sites by the latitude and longitude of the sites
@@ -167,6 +194,16 @@ def cmp_horass(hour1,hour2):
     if hour1<hour2:
         res=-1
     elif hour1>hour2:
+        res=0
+    return res
+
+def cmp_dates(date1,date2):
+    date1=date1['datetime']
+    date2=date2['datetime']
+    res = 1
+    if date1<date2:
+        res=-1
+    elif date1>date2:
         res=0
     return res
 

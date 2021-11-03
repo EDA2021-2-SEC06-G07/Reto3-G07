@@ -82,6 +82,7 @@ def printMenu():
     print('2- Contar los avistamientos por duración')
     print('3-Contar avistamientos por Hora/Minutos del día')
     print('4-Contar los avistamientos en un rango de fechas')
+    print('5-Contar los avistamientos de una Zona Geográfica')
 
 catalog = None
 
@@ -205,6 +206,36 @@ def req_4():
         print('country: ' + lt.getElement(ufos,i)['country'])
         print('shape: '+ lt.getElement(ufos,i)['shape'])
         print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+    
+def req_5():
+    long_min= float(input('Ingresa la longitud minima: '))
+    long_max=float(input('Ingresa la longitud maxima: '))
+    lat_min= float(input('Ingresa la latitud minima: '))
+    lat_max= float(input('Ingresa la latitud maxima: '))
+    ufos= controller.req5(catalog,long_min,long_max,lat_min,lat_max)
+    print('')
+    print('Primero 3')
+    for i in range(0,5):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+    print('')
+    print('Ultimos 3')
+    for i in range(lt.size(ufos)-5,lt.size(ufos)):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+        print('longitude: '+ lt.getElement(ufos,i)['longitude'])
+        print('latitude: '+ lt.getElement(ufos,i)['latitude'])
+
 """
 Menu principal
 """
@@ -220,7 +251,6 @@ if __name__ == "__main__":
             size = tree.size(catalog['DATE'])
             print(f"Se han encontrado {size} UFOs en su area.")
             print("Se le recomienda tener quidado.")
-           
             print()
 
         elif int(inputs[0]) == 1:
@@ -231,6 +261,8 @@ if __name__ == "__main__":
             req_3()
         elif int(inputs[0]) == 4:
             req_4()
+        elif int(inputs[0]) == 5:
+            req_5()
         else:
             print(UFO_ART2)
             print()
