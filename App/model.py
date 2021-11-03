@@ -121,13 +121,12 @@ def req_4(catalog,date_min,date_max):
     contador= 0 
     for i in lt.iterator(lst):
         contador += lt.size(i)
-        print(i)
-        for j in i['elements']:
+        for j in lt.iterator(i):
             lt.addLast(respuesta,j)
     print('')
     print('Se encontraron '+ str(contador) + ' avistamientos')
     print('El avistamiento mas antiguo fue '+ str(antiguo)+ ' con ' + str(lt.size(tamaño_antiguo)))
-    return respuesta['elements']
+    return respuesta
 # Funciones de comparacion
 
     #compares 2 ufo sites by the latitude and longitude of the sites

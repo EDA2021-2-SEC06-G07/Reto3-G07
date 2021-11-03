@@ -163,7 +163,7 @@ def req_3():
     for i in range (0,3):
         print('')
         print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
-        print('city'+ lt.getElement(ufos,i)['city'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
         print('state: '+ lt.getElement(ufos,i)['state'])
         print('country: ' + lt.getElement(ufos,i)['country'])
         print('shape: '+ lt.getElement(ufos,i)['shape'])
@@ -173,11 +173,13 @@ def req_3():
     for i in range(lt.size(ufos)-3,lt.size(ufos)):
         print('')
         print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
-        print('city'+ lt.getElement(ufos,i)['city'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
         print('state: '+ lt.getElement(ufos,i)['state'])
         print('country: ' + lt.getElement(ufos,i)['country'])
         print('shape: '+ lt.getElement(ufos,i)['shape'])
         print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+
+
 def req_4():
     print('Ingrese las fechas en formato AA-MM_DD')
     date_min=input('Ingrese la fecha minima: ')
@@ -187,21 +189,22 @@ def req_4():
     print('Primero 3')
     for i in range(0,3):
         print('')
-        print('Datetime: '+ ufos[i]['datetime'])
-        print('city'+ ufos[i]['city'])
-        print('state: '+ ufos[i]['state'])
-        print('country: ' + ufos[i]['country'])
-        print('shape: '+ ufos[i]['shape'])
-        print('duration: '+ ufos[i]['duration (seconds)'])
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+    print('')
     print('Ultimos 3')
-    for i in range(lt.size(ufos)-3,lt.size(ufos)-1):
+    for i in range(lt.size(ufos)-3,lt.size(ufos)):
         print('')
-        print('Datetime: '+ ufos[i]['datetime'])
-        print('city'+ ufos[i]['city'])
-        print('state: '+ ufos[i]['state'])
-        print('country: ' + ufos[i]['country'])
-        print('shape: '+ ufos[i]['shape'])
-        print('duration: '+ ufos[i]['duration (seconds)'])
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
 """
 Menu principal
 """
