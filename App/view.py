@@ -23,6 +23,7 @@
 from typing import Collection
 import config as cf
 import controller
+import timer
 from DISClib.ADT import list as lt
 from DISClib.ADT import orderedmap as tree
 from DISClib.DataStructures import linkedlistiterator as iter
@@ -207,6 +208,7 @@ def req_4():
         print('shape: '+ lt.getElement(ufos,i)['shape'])
         print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
     
+
 def req_5():
     long_min= float(input('Ingresa la longitud minima: '))
     long_max=float(input('Ingresa la longitud maxima: '))
@@ -236,6 +238,143 @@ def req_5():
         print('longitude: '+ lt.getElement(ufos,i)['longitude'])
         print('latitude: '+ lt.getElement(ufos,i)['latitude'])
 
+# Speed_test
+
+def req1_test():
+    print("UFOs por ciudad")
+
+    data = controller.req1(catalog['DATE'], 'las vegas')
+    
+    print('Primeros 3 avistamientos:')
+    for i in range(0, 3):
+        print(data['city'].keys())
+        ufo = lt.getElement(data['city']['value'], i)
+        print(f'avistamiento {i + 1}:')
+        datetime = ufo['datetime']
+        print(f'\tfecha y hora: {datetime}')
+        country = ufo['country']
+        print(f'\tpais: {country}, city: las vegas')
+        duration = ufo['duration (hours/min)']
+        print(f'\tduraciom: {duration}')
+        shape = ufo['shape']
+        print(f'\tshape: {shape}')
+
+    print('ultimos avistamientos:')
+    for i in range(lt.size(data['city']['value']) - 3, lt.size(data['city']['value'])):
+        ufo = lt.getElement(data['city']['value'], i)
+        print(f'avistamiento {i + 1}:')
+        datetime = ufo['datetime']
+        print(f'\tfecha y hora: {datetime}')
+        country = ufo['country']
+        print(f'\tpais: {country}, city: las vegas')
+        duration = ufo['duration (hours/min)']
+        print(f'\tduraciom: {duration}')
+        shape = ufo['shape']
+        print(f'\tshape: {shape}')
+
+    print('We recomend you to check this other locations')
+    for i in range(1, 7):
+        locations = tree.valueSet(data['full_data'])
+        location_list = lt.getElement(locations, i)
+        location = location_list['first']['info']['city']
+        size = lt.size(location_list)
+        print(f'\t{location} tiene {size} avistamientos')
+
+
+def req2_test():
+    
+    res = controller.req2(catalog['DATE'], 30, 150)
+    info = tree.valueSet(res)
+    size = tree.size(res)
+    print(f'hubo {size} avistammientos')
+
+    for i in range(0, 3):
+        print_ufo(lt.getElement(info, i))
+
+    for i in range(lt.size(info) - 3, lt.size(info)):
+        print_ufo(lt.getElement(info, i))
+
+
+def req3_test():
+    print('ingrese las horas en formato HH:MM')
+    
+    ufos=controller.req3(catalog,'20:45:00','23:15:00')
+    print('')
+    print('Primero 3')
+    for i in range (0,3):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+    print('')
+    print('Ultimos 3')
+    for i in range(lt.size(ufos)-3,lt.size(ufos)):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+
+
+def req4_test():
+    print('Ingrese las fechas en formato AA-MM_DD')
+    
+    ufos= controller.req4(catalog,'1945-08-06','1984-11-15')
+    print('')
+    print('Primero 3')
+    for i in range(0,3):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+    print('')
+    print('Ultimos 3')
+    for i in range(lt.size(ufos)-3,lt.size(ufos)):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+
+
+def req5_test():
+
+    ufos= controller.req5(catalog,-109.05,-103.0,31.33,37.0)
+    print('')
+    print('Primero 3')
+    for i in range(0,5):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+    print('')
+    print('Ultimos 3')
+    for i in range(lt.size(ufos)-5,lt.size(ufos)):
+        print('')
+        print('Datetime: '+ lt.getElement(ufos,i)['datetime'])
+        print('city: '+ lt.getElement(ufos,i)['city'])
+        print('state: '+ lt.getElement(ufos,i)['state'])
+        print('country: ' + lt.getElement(ufos,i)['country'])
+        print('shape: '+ lt.getElement(ufos,i)['shape'])
+        print('duration: '+ lt.getElement(ufos,i)['duration (seconds)'])
+        print('longitude: '+ lt.getElement(ufos,i)['longitude'])
+        print('latitude: '+ lt.getElement(ufos,i)['latitude'])
+
+
+
 """
 Menu principal
 """
@@ -263,6 +402,23 @@ if __name__ == "__main__":
             req_4()
         elif int(inputs[0]) == 5:
             req_5()
+        elif int(inputs[0]) == 8:
+            stop_watch = timer.Timer()
+            catalog = load()
+
+            time1 = stop_watch.time_function(req1_test)
+            time2 = stop_watch.time_function(req2_test)
+            time3 = stop_watch.time_function(req3_test)
+            time4 = stop_watch.time_function(req4_test)
+            time5 = stop_watch.time_function(req5_test)
+
+            print('\n\n')
+            print("time req1: " + str(time1) + 's')
+            print("time req2: " + str(time2) + 's')
+            print("time req3: " + str(time3) + 's')
+            print("time req4: " + str(time4) + 's')
+            print("time req5: " + str(time5) + 's')
+
         else:
             print(UFO_ART2)
             print()
