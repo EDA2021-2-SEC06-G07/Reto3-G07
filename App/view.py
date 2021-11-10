@@ -139,8 +139,8 @@ def req1():
 
 
 def req2():
-    init_sec = int(input("Place initial duration in seconds:"))
-    final_sec = int(input('Place the final duration in seconds:'))
+    init_sec = float(input("Place initial duration in seconds:"))
+    final_sec = float(input('Place the final duration in seconds:'))
 
     res = controller.req2(catalog['DATE'], init_sec, final_sec)
     info = tree.valueSet(res)
