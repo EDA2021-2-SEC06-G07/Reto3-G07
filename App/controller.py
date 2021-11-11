@@ -24,7 +24,7 @@ import config as cf
 import model
 import csv
 
-FILE = "/Data/UFOS/UFOS-utf8-small.csv"
+FILE = "/Data/UFOS/UFOS-utf8-large.csv"
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
